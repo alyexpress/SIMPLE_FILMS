@@ -16,7 +16,11 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
+    .films-grid > a > .title {
+        font-size: 25px!important;
+    }
+
     .film-info > img {
         width: 300px;
     }
@@ -66,7 +70,7 @@
     }
 
     .glass-img {
-        height: 400px;
+        height: 305px;
     }
 
     .film-info > .glass-img {
@@ -75,14 +79,12 @@
     }
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 991px) {
     .films-grid > a {
         width: 29%;
         margin: 0 1.5% 30px 1.5%;
     }
-}
 
-@media screen and (max-width: 991px) {
     .film-info > img {
         width: 250px;
         border-radius: 20px;
@@ -141,7 +143,7 @@
     }
 
     .serials-control > select {
-        width: calc(50% - 20px);
+        width: calc(50% - 20px)!important;
     }
 
     .serials-control {

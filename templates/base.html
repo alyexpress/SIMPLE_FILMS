@@ -12,7 +12,6 @@
     {% block links %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
-    <meta name="theme-color" content="black">
     <style>
         .bi {
             vertical-align: -.125em;
@@ -46,7 +45,7 @@
     </style>
 </head>
 <body>
-<!--    <span id="loader"><img src="{{ url_for('static', filename='imgs/loader.jpg') }}"></span>-->
+{#    <span id="loader"><img src="{{ url_for('static', filename='imgs/loader.jpg') }}"></span>#}
     <header class="p-3 text-bg-dark">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -55,12 +54,11 @@
                         <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"></path>
                     </svg>
                 </a>
-
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-secondary">Главная</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Избранные</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Короткие</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Прочее</a></li>
+                    <li><a href="/" class="nav-link px-2 text-{% if header_select == 1 %}secondary{% else %}white{% endif %}">Главная</a></li>
+                    <li><a href="#" class="nav-link px-2 text-{% if header_select == 2 %}secondary{% else %}white{% endif %}">Избранные</a></li>
+                    <li><a href="https://t.me/SimpleFilmsShorties" class="nav-link px-2 text-white">Короткие</a></li>
+                    <li><a href="/other" class="nav-link px-2 text-{% if header_select == 3 %}secondary{% else %}white{% endif %}">Прочее</a></li>
                 </ul>
 
                 <form class="col-12 col-lg-3 mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get">
@@ -68,8 +66,8 @@
                 </form>
 
                 <div class="text-end">
-                    <button type="button" class="btn btn-info me-2">Войти</button>
-                    <button type="button" class="btn btn-warning">Регистрация</button>
+                    <button type="button" class="btn btn-info me-2" id="log-in">Войти</button>
+                    <button type="button" class="btn btn-warning" id="sign-up">Регистрация</button>
                 </div>
             </div>
         </div>
@@ -77,6 +75,14 @@
     <div class="container mt-5">
         {% block content %}{% endblock %}
     </div>
+    <script>
+        document.getElementById("log-in").onclick = function () {
+            window.location.href = "/log-in"
+        }
+        document.getElementById("sign-up").onclick = function () {
+            window.location.href = "/sign-up"
+        }
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

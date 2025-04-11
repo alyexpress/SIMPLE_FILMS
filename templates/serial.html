@@ -9,10 +9,17 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
             </svg></span>
-        <span class="tag tag-red">18+</span>
-        <span class="tag tag-purple">Новый<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-fire ms-1" viewBox="0 0 16 16">
+        {% if 2022 < data['Год'][0] | int < 2026 %}
+        <span class="tag tag-red">Новый<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-fire ms-1" viewBox="0 0 16 16">
             <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"></path>
-        </svg></span>
+        </svg></span>{% endif %}
+        {% if data['rating'] | float >= 7.5 %}
+        <span class="tag tag-green">Лучшее<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-circle-fill ms-2" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+        </svg></span>{% elif not (2022 < data['Год'][0] | int < 2026) %}
+        <span class="tag tag-purple">{{ data['Жанр'][0] }}<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-folder-fill ms-2" viewBox="0 0 16 16">
+            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z"></path>
+        </svg></span>{% endif %}
         <div class="row">
             <div class="col-sm-3">Жанр</div>
             <div class="col-sm-7">{{ ', '.join(data['Жанр'][:3]) }}</div>
@@ -47,39 +54,34 @@
     </video></div>
 </div>
 <div class="serials-control">
-    <select class="form-select form-select-lg mb-3" id="seasons">
-        <option value="1" selected>1 Сезон</option>
-        <option value="2">2 Сезон</option>
-        <option value="3">3 Сезон</option>
-    </select>
-    <select class="form-select form-select-lg mb-3" id="episodes">
-        <option value="1" selected>1 Серия</option>
-        <option value="2">2 Серия</option>
-        <option value="3">3 Серия</option>
-    </select>
-    <a href="" class="btn btn-lg btn-primary">Следующая серия
+    <select class="form-select form-select-lg mb-3" id="seasons"></select>
+    <select class="form-select form-select-lg mb-3" id="episodes"></select>
+    <button class="btn btn-lg btn-primary" onclick="nextEpisode()">Следующая серия
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-fast-forward-fill" viewBox="0 0 16 16">
             <path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z"></path>
             <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z"></path>
         </svg>
-    </a>
+    </button>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
+    const video = document.getElementsByTagName('video')[0]
+
     let [s, e] = [1, 1]
-    async function setVideo(s, e) {
-        document.getElementsByTagName('video')[0].classList.add("loading")
-        let url = window.location.href + "/api/"
-        url += "s" + s.toString() + "e" + e.toString()
+    let [S, E] = [0, 0]
+    async function setVideo(s, e, autoplay=true) {
+        video.src = null; video.classList.add("loading")
+        let url = window.location.href.replace("/serial/", "/api/serial/")
+        url += "/s" + s.toString() + "e" + e.toString() + "/-"
         let data = await(await fetch(url)).json()
-        document.getElementsByTagName('video')[0].src = data['src']
-        document.getElementsByTagName("video")[0].classList.remove("loading")
+        video.src = data['src']; video.classList.remove("loading")
+        if (autoplay) await video.play();
         return [data["seasons"], data["episodes"]]
     }
     function load_seasons(seasons) {
-        let options = ""
+        S = seasons; let options = ""
         for (let i = 1; i < seasons + 1; i++) {
             options += '<option value="' + i + '"'
             if (i === s) options += ' selected'
@@ -88,10 +90,10 @@
         document.getElementById("seasons").innerHTML = options
     }
     function load_episodes(episodes) {
-        let options = ""
+        E = episodes; let options = ""
         for (let i = 1; i < episodes + 1; i++) {
             options += '<option value="' + i + '"'
-            if (i === s) options += ' selected'
+            if (i === e) options += ' selected'
             options += '>' + i + ' Серия</option>\n'
         }
         document.getElementById("episodes").innerHTML = options
@@ -99,22 +101,31 @@
     window.onload = async function () {
         document.getElementsByClassName("glass-img")[0].remove()
         document.getElementsByClassName("d-none")[0].classList.remove("d-none")
-        let serials = await setVideo(s, e)
+        let serials = await setVideo(s, e, false)
         load_seasons(serials[0]); load_episodes(serials[1])
     }
     function watch() {
-        const videoContent =  document.getElementsByClassName("video-content")[0]
-        videoContent.getElementsByTagName("h1")[0].scrollIntoView();
-        document.getElementsByTagName('video')[0].play()
+        const videoContent = document.getElementsByClassName("video-content")[0]
+        videoContent.getElementsByTagName("h1")[0].scrollIntoView(); video.play()
     }
+    async function nextEpisode() {
+        if (e < E) { e += 1; document.getElementById("episodes").value = e;
+            return await setVideo(s, e) } else if (s < S) { s += 1;
+            document.getElementById("seasons").value = s; e = 1;
+            document.getElementById("episodes").innerHTML =
+                '<option value="1" selected>1 Серия</option>'
+            return load_episodes((await setVideo(s, e))[1]) }
+        else return alert("Вы досмотрели сериал до конца!")
+    }
+    video.onended = async function() { await nextEpisode() }
     document.getElementById("episodes").onchange = async function () {
-        document.getElementsByTagName('video')[0].src = null
-        e = document.getElementById("episodes").value
+        e = parseInt(document.getElementById("episodes").value)
         await setVideo(s, e)
     }
     document.getElementById("seasons").onchange = async function () {
-        document.getElementsByTagName('video')[0].src = null
-        s = document.getElementById("seasons").value; e = 1
+        document.getElementById("episodes").innerHTML =
+            '<option value="1" selected>1 Серия</option>'
+        e = 1; s = parseInt(document.getElementById("seasons").value);
         load_episodes((await setVideo(s, e))[1])
     }
 </script>

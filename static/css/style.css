@@ -2,6 +2,8 @@
     --background-color: white;
     --text-color: black;
     --dim-color: gray;
+    --glass-color: #ddd;
+    --glass-shadow: white;
     --tag-background: #222;
     --tag-color: white;
     --shadow-color: rgba(0, 0, 0, 0.2);
@@ -14,6 +16,8 @@
         --background-color: rgb(25, 28, 31);
         --text-color: white;
         --dim-color: #aaa;
+        --glass-color: #555;
+        --glass-shadow: #999;
         --tag-background: white;
         --tag-color: #222;
         --shadow-color: rgba(0, 0, 0, 1);
@@ -142,7 +146,12 @@ header .nav-link.text-white:hover {
 }
 
 .film-description > .tag.tag-red {
-    background: #ff3549;
+    background: #ff1265;
+    color: white;
+}
+
+.film-description > .tag.tag-green {
+    background: #0ac15a;
     color: white;
 }
 
@@ -315,7 +324,7 @@ header .nav-link.text-white:hover {
 
 .glass-img {
     position: relative;
-    background: #ddd;
+    background: var(--glass-color);
     width: 100%;
     height: 420px;
     border-radius: 30px;
@@ -333,12 +342,12 @@ header .nav-link.text-white:hover {
     content: "";
     display: inline-block;
     position: absolute;
-    width: 135%;
+    width: 160%;
     height: 80px;
     transform: rotate(-30deg);
     top: -200px;
     left: -45px;
-    background: white;
+    background: var(--glass-shadow);
     filter: blur(40px);
     animation-name: load_img;
     animation-duration: 2s;
@@ -520,6 +529,11 @@ header .nav-link.text-white:hover {
 }
 
 .serials-control > select {
+    display: none;
+}
+
+.serials-control > select:has(option) {
+    display: inline-block;
     width: 200px;
     font-size: 25px;
     margin-top: 5px;

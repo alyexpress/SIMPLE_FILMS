@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% set header_select = 1 %}
 {% set search_query = query %}
 {% block content %}
 <h1 class="request">Результаты поиска: {{ query }}</h1>
 <div class="films-grid mt-3">
     {% for film in data %}
-    <a href="../../film/{{ film['link'].split('/')[-1] }}">
+    {% set link = film['link'].split('/')[-1] %}
+    <a href="../../film/k{{ link.split('-')[0] }}">
         <img src="{{ film['preview'] }}" class="d-none" alt="">
         <div class="glass-img"></div>
         <span class="title">{{ film['title'] }}</span>
