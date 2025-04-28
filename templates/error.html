@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        .center {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+        }
+        .err-btn {
+            font-size: 30px;
+            font-weight: 500;
+            padding: 5px 50px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+    </style>
+    <div class="center">
+        <h1 style="font-size: 50px;">Ошибка {{ code }}</h1><h2>{{ message }}</h2>
+        <div><a href="/" class="btn err-btn btn-warning mt-3">На главную</a>
+        {% if report %}<a href="#" class="btn err-btn btn-primary mt-3 ms-2">
+            Сообщить об ошибке</a>{% endif %}</div>
+    </div>
+{% endblock %}

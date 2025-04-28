@@ -54,6 +54,33 @@ body {
     color: var(--dim-color);
 }
 
+.form-error {
+    border: 2px solid #ff0000 !important;
+}
+
+.error {
+    display: block;
+    text-align: left;
+    color: #ff0000;
+    margin-top: -5px;
+}
+
+html.dark {
+    .form-signin .form-control {
+        background: #333;
+        color: white;
+    }
+
+    .form-signin .form-control:focus {
+        box-shadow: 0 0 0 .25rem rgba(13,110,253,.5);
+    }
+
+    .form-signin .form-check-input:not(:checked) {
+        background: #333;
+        border: 1px solid #555;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .form-signin .form-control {
         background: #333;

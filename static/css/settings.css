@@ -1,0 +1,153 @@
+html.light {
+    --shadow: 0 0 40px #00000020;
+    --input-background: white;
+    --border: var(--bs-border-color);
+    --avatar-select: #eee
+}
+
+html.dark {
+    --shadow: 0 0 40px #000;
+    --input-background: #333;
+    --border: rgba(255, 255, 255, 0.15);
+    --avatar-select: #29292d
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --shadow: 0 0 40px #000!important;
+        --input-background: #333!important;
+        --border: rgba(255, 255, 255, 0.15)!important;
+        --avatar-select: #eee!important;
+    }
+}
+
+body.load {
+    transition: .3s;
+}
+
+.half-page {
+    display: inline-block;
+    width: 47%;
+}
+
+.profile {
+    min-height: 240px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    border-radius: 33px;
+    transition: .3s;
+}
+
+.profile > img {
+    width: 200px;
+    border-radius: 25px;
+    transition: .2s;
+}
+
+.profile > img:hover {
+    scale: 0.95;
+}
+
+.profile > div.info {
+    display: inline-block;
+}
+
+.profile .info > h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.profile .info > span {
+    display: block;
+    font-size: 30px;
+    margin-top: -10px;
+}
+
+form.mt-5 {
+    box-shadow: var(--shadow);
+    padding: 20px 40px 20px 20px;
+    border-radius: 33px;
+    transition: .3s;
+}
+
+form.mt-5 .form-control {
+    transition: .3s;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: var(--bs-border-width) solid var(--border);
+}
+
+form.mt-5 label {
+    font-size: 20px;
+    padding: 9px 20px 9px 10px;
+    font-weight: 500;
+}
+
+form.mt-5 button[type=submit] {
+    font-size: 25px;
+    font-weight: 500;
+    border-radius: 15px;
+    transition: .15s;
+}
+
+form.mt-5 button[type=submit]:hover {
+    transform: scale(0.98);
+}
+
+.settings {
+    width: 42%;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    border-radius: 33px;
+    margin-left: 5%;
+    transition: .3s;
+}
+
+.settings .form-check {
+    font-size: 25px;
+}
+
+.settings a.btn-warning {
+    font-size: 25px;
+    font-weight: 500;
+    border-radius: 15px;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+}
+
+.avatar-select {
+    position: absolute;
+    z-index: 1;
+    width: 365px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+    background: var(--avatar-select);
+    box-shadow: 0 0 0 2000px #00000055;
+    animation: open-avatar-select;
+    animation-duration: .25s;
+}
+
+@keyframes open-avatar-select {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+.avatar-select > img {
+    width: 150px;
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    transition: .2s;
+}
+
+.avatar-select > img:hover {
+    transform: scale(0.93);
+}
+
+.form-error {
+    border: 2px solid #ff0000 !important;
+}
+
+.form-error::placeholder {
+    color: red;
+}

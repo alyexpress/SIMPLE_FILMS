@@ -26,6 +26,31 @@ p {
     font-size: 25px;
 }
 
+.card-body .list-unstyled {
+    font-size: 20px;
+}
+
+.code {
+    font-family: var(--bs-font-monospace), sans-serif;
+    color: var(--dim-color);
+}
+
+.code-block {
+    background: var(--bs-warning);
+    color: black;
+    opacity: 70%;
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 18px;
+}
+
+html.dark {
+    .quote {
+        border-color: #444;
+        background: rgb(35, 38, 41);
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .quote {
         border-color: #444;

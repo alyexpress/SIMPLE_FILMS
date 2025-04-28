@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from time import sleep
+import datetime
 from re import search
 
 #DEL
@@ -55,11 +56,25 @@ class Service:
 
 
 class Kinovod(Service):
-    SERVER = "https://kinovod.pro"
     NEW_PLAYER = {'name': 'player_settings', 'value': 'new|mp4|1'}
     OLD_PLAYER = {'name': 'player_settings', 'value': 'old|mp4|1'}
     FULL_HD = "window.localStorage.setItem('pljsquality', '1080p')"
     HD = "window.localStorage.setItem('pljsquality', '720p')"
+
+    # def SERVER(self):
+    #     if self.DATE is not None:
+    #         date = self.DATE
+    #     elif datetime.datetime.now().hour > -1:
+    #         date = datetime.date.today().strftime("%d%m%y")
+    #     else:
+    #         days = str(datetime.date.today().day - 1)
+    #         date = days + datetime.date.today().strftime("%m%y")
+    #     return f"https://kinovod{date}.pro"
+
+    def __init__(self, date=None):
+        if date is None:
+            date = datetime.date.today().strftime("%d%m%y")
+        super().__init__(f"https://kinovod{date}.pro")
 
     def film(self, code):
         try:
@@ -76,13 +91,13 @@ class Kinovod(Service):
             video = soup.find('video')['src']
             return {'src': video}
         except NoSuchElementException:
-            return {'error': '404 Not Found', 'src': ''}
+            return {'error': '404 Not Found', 'src': ''}, 404
         except TimeoutException:
-            return {'error': '524 A Timeout Occurred', 'src': ''}
+            return {'error': '524 A Timeout Occurred', 'src': ''}, 524
         except (TypeError, KeyError):
-            return {'error': '502 Bad Gateway', 'src': ''}
+            return {'error': '502 Bad Gateway', 'src': ''}, 502
         except Exception:
-            return {'error': '520 Unknown Error', 'src': ''}
+            return {'error': '520 Unknown Error', 'src': ''}, 520
 
     def serial(self, code, s=1, e=1):
         try:
@@ -118,15 +133,15 @@ class Kinovod(Service):
             video = soup.find('video').find('source')['src']
             return dict([('src', video)] + list(parts.items()))
         except NoSuchElementException:
-            return {'error': '404 Not Found', 'src': ''}
+            return {'error': '404 Not Found', 'src': ''}, 404
         except JavascriptException:
-            return {'error': '400 Bad Request', 'src': ''}
+            return {'error': '400 Bad Request', 'src': ''}, 400
         except TimeoutException:
-            return {'error': '524 A Timeout Occurred', 'src': ''}
+            return {'error': '524 A Timeout Occurred', 'src': ''}, 524
         except (TypeError, KeyError):
-            return {'error': '502 Bad Gateway', 'src': ''}
+            return {'error': '502 Bad Gateway', 'src': ''}, 502
         except Exception:
-            return {'error': '520 Unknown Error', 'src': ''}
+            return {'error': '520 Unknown Error', 'src': ''}, 520
 
     def info(self, code):
         try:
@@ -152,12 +167,14 @@ class Kinovod(Service):
                 links = value.select('a')
                 data[key] = (value.get_text() if not links else
                              list(map(lambda x: x.get_text(), links)))
-            del data['']
+            if "" in data.keys():
+                del data['']
             return data
         except NoSuchElementException:
-            return {'error': '404 Not Found'}
+            return {'error': '404 Not Found'}, 404
         except Exception:
-            return {'error': '502 Bad Gateway'}
+            return {'error': '502 Bad Gateway'}, 502
+
 
     def search(self, query):
         query = query.replace(' ', '+')

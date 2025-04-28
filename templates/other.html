@@ -13,7 +13,55 @@
     И <a href="https://www.consultant.ru/document/cons_doc_LAW_61798/7b95a91feb271e5c605456ef9a8afef42d36ae2d/">Закон об информации</a> гласит, что информация является общедоступной, и каждый вправе использовать такую информацию (при указании источника).</p>
     <p class="ms-3">Также <b>Совет безопасности РФ</b> одобрил использование пиратского контента в условиях санкций. То есть все иностранные фильмы и сериалы стали общедоступными и перестали обладать авторским правом.
     На сайте нельзя смотреть русские фильмы, так как это бы нарушало <a href="https://www.consultant.ru/document/cons_doc_LAW_64629/bcdb3bad76a5cc627f036c9e23135e25579d3635/">1263 статью ГК РФ</a> отечественных кинокомпаний.</p>
+
+    <h1 class="mt-5">Получить доступ к API и его использование</h1>
+    <div class="row row-cols-1 row-cols-md-3 text-center mt-4">
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Бесплатный</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">0₽<small class="text-muted fw-light">/мес</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Для старта и обучения</li>
+              <li>5 запросов в минуту</li>
+              <li>200 запросов в день</li>
+              <li>Доступны не все фильмы</li>
+            </ul>
+            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Получить сейчас</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm border-primary">
+          <div class="card-header py-3 text-white bg-primary border-primary">
+            <h4 class="my-0 fw-normal">Премиум</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">129₽<small class="text-muted fw-light">/мес</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Для проекта и бизнеса</li>
+              <li>∞ запросов в минуту</li>
+              <li>20 000 запросов в день</li>
+              <li>Нет ограничений по фильмам</li>
+            </ul>
+            <button type="button" class="w-100 btn btn-lg btn-primary">Приобрести сейчас</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p>Для начала выберите подходящий для себя тариф и получите <b>Ключ разработчика</b>.</p>
+    <h1 class="mt-5 mb-3">Получить прямую ссылку на фильм / сериал</h1>
+{#    <p class="ms-3">Параметр <span class="code">{server}</span> определяется сайтом, откуда нужно взять фильм, задаётся первой буквой названия сайта: <span class="code">{k: kinovod, r: rutube, z: zona}</span>.#}
+{#    Параметр <span class="code">{code}</span> </p>#}
+    <div class="code code-block mb-3"><span style="font-size: 25px;">{{ request.host_url }}api/film/{server}{code}/{apikey}</span><br>{server} = Буква сайта {k: kinovod, r: rutube, z: zona}; {code} = Код фильма; {apikey} = Ключ Разработчика.</div>
+    <div class="quote">Отправив <b>GET</b> запрос на сайт по ссылке выше, сервер вернёт <b>json</b> ответ. Если всё сработало успешно, то по ключу <b>"src"</b> вы получите ссылку на исходное видео. В случаи ошибки, сервер вернёт ответ с ключом <b>"error"</b>, содержащий код и описание возникшей ошибки.</div>
+    <div class="code code-block mb-3 mt-5"><span style="font-size: 25px;">{{ request.host_url }}api/serial/{server}{code}/s{season}e{episode}/{apikey}</span><br>{server} = Буква сайта {k: kinovod, r: rutube, z: zona}; {code} = Код фильма; {apikey} = Ключ Разработчика.</div>
+    <div class="quote">Отправив <b>GET</b> запрос на сайт по ссылке выше, сервер вернёт <b>json</b> ответ. Если всё сработало успешно, то по ключу <b>"src"</b> вы получите ссылку на исходное видео. В случаи ошибки, сервер вернёт ответ с ключом <b>"error"</b>, содержащий код и описание возникшей ошибки.</div>
+    <br><br><br><br><br><br>
 {% endblock %}
+{#{{ request.host_url }}api/serial/&lt;server&gt;&lt;code&gt;/s&lt;season&gt;e&lt;episode&gt;/&lt;api_key&gt;#}
 
 {#{% block scripts %}#}
 {#<script>#}

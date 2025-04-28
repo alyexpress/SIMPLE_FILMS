@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,39 +12,31 @@
 </head>
 <body>
 <main class="form-signin">
-    <form>
+    <form action="" method="post">
         <div class="logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
                 <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"></path>
-            </svg>
-            <span>SimpleFilms</span>
+            </svg><span>SimpleFilms</span>
         </div>
-
         <h1 class="h2 mt-4 mb-3 fw-normal">Регистрация:</h1>
-
-{#                <div class="form-floating">#}
-{#                  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">#}
-{#                  <label for="floatingInput">Адрес эл. почты</label>#}
-{#                </div>#}
-{#                <div class="form-floating">#}
-{#                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">#}
-{#                  <label for="floatingPassword">Пароль</label>#}
-{#                </div>#}
-        <input type="email" class="form-control form-control-lg mb-2" placeholder="Введите email">
-        <input type="email" class="form-control form-control-lg mb-2" placeholder="Введите имя">
-        <input type="password" class="form-control form-control-lg mb-2" placeholder="Введите пароль">
-        <input type="password" class="form-control form-control-lg mb-2" placeholder="Подтвердите пароль">
-{#        <div class="checkbox mb-3 ms-2" style="text-align: left">#}
-{#            <label>#}
-{#                <input type="checkbox" value="remember-me" class="checkbox"> Запомнить меня#}
-{#            </label>#}
-{#        </div>#}
+        <input type="text" class="form-control form-control-lg mb-2 {% if 'name' in error %}form-error{% endif %}" placeholder="Введите имя" name="name" value="{{ data[0] }}">
+        {% if 'name' in error %}<span class="error ms-2 mb-2">{{ error['name'] }}</span>{% endif %}
+        <input type="email" class="form-control form-control-lg mb-2 {% if 'email' in error %}form-error{% endif %}" placeholder="Введите email" name="email" value="{{ data[1] }}">
+        {% if 'email' in error %}<span class="error ms-2 mb-2">{{ error['email'] }}</span>{% endif %}
+        <input type="password" class="form-control form-control-lg mb-2 {% if 'password' in error %}form-error{% endif %}" placeholder="Введите пароль" name="password" value="{{ data[2] }}">
+        {% if 'password' in error %}<span class="error ms-2 mb-2">{{ error['password'] }}</span>{% endif %}
+        <input type="password" class="form-control form-control-lg mb-2 {% if 'check_password' in error %}form-error{% endif %}" placeholder="Подтвердите пароль" name="check_password" value="{{ data[3] }}">
+        {% if 'check_password' in error %}<span class="error ms-2 mb-2">{{ error['check_password'] }}</span>{% endif %}
         <div class="form-check mb-3 ms-2" style="text-align: left">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="remember_me" {% if data != [] %}{% if data[4] != None %}checked{% endif %}{% endif %}>
           <label class="form-check-label" for="flexCheckDefault">Запомнить меня</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary mb-5" type="submit">Войти</button>
     </form>
 </main>
+<script type="text/javascript">
+    let theme = localStorage.getItem("colorTheme")
+    document.documentElement.setAttribute('class', theme);
+</script>
 </body>
 </html>

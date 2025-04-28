@@ -31,12 +31,13 @@
             <div class="col-sm-7">{{ ', '.join(data['Режиссер'][:2]) }}</div>
         </div><div class="row">
             <div class="col-sm-3">Актеры</div>
-            <div class="col-sm-7">{{ ', '.join(data['Актеры'][:2]) }}...</div>
+            <div class="col-sm-7">{{ ', '.join(data['Актеры'][:2]) }}{% if data['Актеры']|length > 2 %}...{% endif %}</div>
         </div>
         <span class="film-about">{{ data['description'] }}</span>
         <div class="d-inline-block under-group mt-3">
             <button class="btn btn-primary btn-lg me-2" onclick="watch()">Смотреть</button>
-            <button class="btn btn-warning btn-lg">В Избранное</button>
+            {% if favorite %}<button class="btn btn-success btn-lg favorite-btn" onclick="favorite()">В Избранных</button>
+            {% else %}<button class="btn btn-warning btn-lg favorite-btn" onclick="favorite()">В Избранное</button>{% endif %}
         </div>
     </div>
 </div>
@@ -44,7 +45,8 @@
     <span class="film-about">{{ data['description'] }}</span>
     <div class="d-inline-block under-group mt-3">
         <button class="btn btn-primary btn-lg me-2" onclick="watch()">Смотреть</button>
-        <button class="btn btn-warning btn-lg">В Избранное</button>
+        {% if favorite %}<button class="btn btn-success btn-lg favorite-btn" onclick="favorite()">В Избранных</button>
+            {% else %}<button class="btn btn-warning btn-lg favorite-btn" onclick="favorite()">В Избранное</button>{% endif %}
     </div>
 </div>
 <div class="video-content">
@@ -127,6 +129,24 @@
             '<option value="1" selected>1 Серия</option>'
         e = 1; s = parseInt(document.getElementById("seasons").value);
         load_episodes((await setVideo(s, e))[1])
+    }
+    async function favorite() {
+        const btn = document.getElementsByClassName("favorite-btn")
+        const url = window.location.href + '/favorite'
+        let response = await(await fetch(url)).text()
+        if (response === "added") {
+            for (let i = 0; i < 2; i++) {
+                btn[i].classList.remove("btn-warning")
+                btn[i].classList.add("btn-success")
+                btn[i].innerText = "В Избранных"
+            }
+        } else if (response === "removed") {
+            for (let i = 0; i < 2; i++) {
+                btn[i].classList.remove("btn-success")
+                btn[i].classList.add("btn-warning")
+                btn[i].innerText = "В Избранное"
+            }
+        }
     }
 </script>
 {% endblock %}

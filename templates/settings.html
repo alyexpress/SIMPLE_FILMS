@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="d-flex mb-5" style="margin-left: 2%;">
+        <div class="half-page">
+            <div class="profile">
+                <img src="{{ url_for('static', filename='avatar/' + current_user.avatar) }}" alt="" id="avatar">
+                <div class="info ms-3">
+                    <h1>{{ current_user.name }}</h1>
+                    <span>{{ current_user.email }}</span>
+                </div>
+            </div>
+            <div class="avatar-select d-none">
+                <img src="{{ url_for('static', filename='avatar/default/blue.png') }}" alt="" onclick="setAvatar('blue')">
+                <img src="{{ url_for('static', filename='avatar/default/purple.png') }}" alt="" onclick="setAvatar('purple')">
+                <img src="{{ url_for('static', filename='avatar/default/green.png') }}" alt="" onclick="setAvatar('green')">
+                <img src="{{ url_for('static', filename='avatar/default/red.png') }}" alt="" onclick="setAvatar('red')">
+                <img src="{{ url_for('static', filename='avatar/default/orange.png') }}" alt="" onclick="setAvatar('orange')">
+                <form enctype="multipart/form-data" action="/set-avatar" method="post" hidden>
+                    <input type="file" id="specialAvatar" accept="image/*" name="avatar">
+                    <button type="submit" id="specialAvatarButton"></button></form>
+                <img src="{{ url_for('static', filename='avatar/default/plus.png') }}" alt=""
+                     onclick="document.getElementById('specialAvatar').click()">
+            </div>
+            <form action="" method="post" class="mt-5">
+                <h1 class="mt-1 ms-2">Изменить профиль</h1>
+                <div class="d-flex mt-4 mb-2">
+                    <div>
+                        <label class="d-block">Имя:</label>
+                        <label class="d-block mt-2">Email:</label>
+                        <label class="d-block mt-2">Пароль:</label>
+                    </div>
+                    <div class="w-100">
+                        <input type="text" class="form-control form-control-lg" value="{% if name is defined %}{{ name }}{% else %}{{ current_user.name }}{% endif %}" required name="name">
+                        <input type="email" class="form-control form-control-lg mt-2" value="{% if email is defined %}{{ email }}{% else %}{{ current_user.email }}{% endif %}" required name="email">
+                        <input type="password" class="form-control form-control-lg mt-2{% if error %} form-error{% endif %}" required {% if error %}placeholder="Неверный пароль!"{% endif %} name="password">
+                        <button type="submit" class="btn btn-lg btn-primary mt-3 w-100">Обновить информацию</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="half-page settings">
+            <h1 class="mt-1 ms-3">Настройки сайта</h1>
+            <div class="form-check form-switch mt-4 ms-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="darkTheme">
+                <label class="form-check-label" for="darkTheme">Установить темную тему</label>
+            </div>
+            <div class="form-check form-switch mt-2 ms-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="bestQuality" checked>
+                <label class="form-check-label" for="bestQuality">Искать лучшее качество</label>
+            </div>
+            <div class="form-check form-switch mt-2 ms-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="allowCookie" checked disabled>
+                <label class="form-check-label" for="allowCookie">Разрешить файлы cookie</label>
+            </div>
+            <div class="form-check form-switch mt-2 ms-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="hideProfile">
+                <label class="form-check-label" for="hideProfile">Анонимные комментарии</label>
+            </div>
+            <h1 class="mt-4 mb-3 ms-3">Для разработчиков</h1>
+            <span class="d-block ms-4 me-5" style="font-size: 25px;">
+                Получить ключ разработчика можно в разделе <a href="/other">Прочее</a>.
+                Там же находится инструкция по использованию API.
+            </span>
+            <a href="/other" class="btn btn-lg btn-warning mt-3">Стать разработчиком</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById("specialAvatar").onchange = function () {
+            let avatar = document.getElementById("specialAvatar").value.split(".")
+            if (["png", "jpg", "jpeg"].indexOf(avatar[avatar.length - 1]) === -1)
+                alert("Файл с таким расширением не поддерживается!")
+            else document.getElementById("specialAvatarButton").click()
+        }
+        function setAvatar(color) {
+            window.location.href = "/set-avatar/" + color
+        }
+        if (localStorage.getItem("colorTheme") === "dark") {
+            document.getElementById("darkTheme").checked = true
+        }
+        window.onload = function () {
+            document.getElementsByTagName("body")[0].classList.add("load")
+        }
+        document.getElementById("darkTheme").onchange = function () {
+            let theme = document.getElementById("darkTheme").checked ? "dark": "light"
+            document.documentElement.setAttribute('class', theme);
+            localStorage.setItem("colorTheme", theme)
+        }
+        document.getElementById("avatar").onclick = function () {
+            const avatarSelect = document.getElementsByClassName("avatar-select")[0]
+            if (avatarSelect.classList.contains("d-none")) {
+                avatarSelect.classList.remove("d-none")
+            } else {
+                avatarSelect.classList.add("d-none")
+            }
+        }
+    </script>
+{% endblock %}
