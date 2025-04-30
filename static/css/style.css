@@ -6,6 +6,7 @@ html.light {
     --glass-shadow: white;
     --tag-background: #222;
     --tag-color: white;
+    --border-color: var(--bs-border-color);
     --shadow-color: rgba(0, 0, 0, 0.2);
     --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
     --loader-size: 150px;
@@ -20,6 +21,7 @@ html.dark {
     --tag-background: white;
     --tag-color: #222;
     --shadow-color: rgba(0, 0, 0, 1);
+    --border-color: rgba(255, 255, 255, 0.15);
     --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
     --loader-size: 150px;
 }
@@ -34,6 +36,7 @@ html.dark {
         --tag-background: white!important;
         --tag-color: #222!important;
         --shadow-color: rgba(0, 0, 0, 1)!important;
+        --border-color: rgba(255, 255, 255, 0.15)!important;
         --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>')!important;
     }
 }
@@ -559,7 +562,7 @@ header .nav-link.text-white:hover {
     background-image: var(--dropdownarrow);
     background-position: right 15px top 18px;
     background-size: 20px 20px;
-    transition: .15s;
+    transition: .2s;
 }
 
 .serials-control > select:hover {
@@ -588,4 +591,36 @@ header .nav-link.text-white:hover {
 .serials-control > .btn > svg {
     margin-bottom: -3px;
     margin-left: 5px;
+}
+
+.center-block {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    bottom: 70px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+form.err-form .form-control {
+    display: inline-block;
+    max-width: 600px;
+    margin-top: 15px;
+    font-size: 30px;
+    border-radius: 15px;
+    transition: .3s;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: var(--bs-border-width) solid var(--border-color);
+}
+
+.err-btn {
+    font-size: 30px;
+    font-weight: 500;
+    padding: 5px 50px;
+    border-radius: 15px;
+    display: inline-block;
 }

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% set add_title = " | " + query %}
 {% set header_select = 1 %}
 {% set search_query = query %}
 {% block content %}
+{% if data %}
 <h1 class="request">Результаты поиска: {{ query }}</h1>
 <div class="films-grid mt-3">
     {% for film in data %}
@@ -17,9 +19,19 @@
         </span>
         <span class="year">{{ film['year'] }}</span>
     </a>
-    {% endfor %}
-</div>
-<div class="btn-more"><a href="">Больше результатов</a></div>
+    {% endfor %}</div>
+    <div class="btn-more"><a href="">Больше результатов</a></div>
+    {% else %}<div class="center-block">
+        <h1 style="font-size: 50px;">Ошибка 404</h1>
+        <h2>По такому запросу ничего не найдено :(</h2>
+        <form action="/search" class="err-form">
+            <input type="text" class="form-control form-control-lg" value="{{ query }}" name="query">
+            <div>
+                <a href="/" class="btn err-btn btn-warning mt-3 ms-1 me-1">На главную</a>
+                <button type="submit" class="btn err-btn btn-info mt-3 ms-1 me-1">Поиск</button>
+            </div>
+        </form>
+    </div>{% endif %}
 {% endblock %}
 
 {% block scripts %}

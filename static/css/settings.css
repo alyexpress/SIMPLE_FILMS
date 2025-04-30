@@ -1,14 +1,12 @@
 html.light {
     --shadow: 0 0 40px #00000020;
     --input-background: white;
-    --border: var(--bs-border-color);
     --avatar-select: #eee
 }
 
 html.dark {
     --shadow: 0 0 40px #000;
     --input-background: #333;
-    --border: rgba(255, 255, 255, 0.15);
     --avatar-select: #29292d
 }
 
@@ -16,7 +14,6 @@ html.dark {
     html {
         --shadow: 0 0 40px #000!important;
         --input-background: #333!important;
-        --border: rgba(255, 255, 255, 0.15)!important;
         --avatar-select: #eee!important;
     }
 }
@@ -74,7 +71,7 @@ form.mt-5 .form-control {
     transition: .3s;
     background: var(--background-color);
     color: var(--text-color);
-    border: var(--bs-border-width) solid var(--border);
+    border: var(--bs-border-width) solid var(--border-color);
 }
 
 form.mt-5 label {

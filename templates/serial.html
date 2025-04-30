@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set add_title = " | " + data['title'] + " (" + data['Год'][0] + ")" %}
 {% block content %}
 <div class="d-flex film-info">
     <img src="{{ data['preview'] }}" alt="" class="d-none">
@@ -146,6 +147,8 @@
                 btn[i].classList.add("btn-warning")
                 btn[i].innerText = "В Избранное"
             }
+        } else {
+            alert("Чтобы добавить сериал в избранное нужно авторизоваться!")
         }
     }
 </script>

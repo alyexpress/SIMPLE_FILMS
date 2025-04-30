@@ -34,18 +34,33 @@ def logout():
     return redirect("/")
 
 
+@app.errorhandler(401)
+def http_error_handler(error):
+    message = "Вы не авторизовались :("
+    btns = [
+        {"href": "/log-in", "color": "info", "text": "Войти"},
+        {"href": "/sign-up", "color": "warning", "text": "Регистрация"}
+    ]
+    return render_template("error.html", code=401,
+                           message=message, btns=btns), 401
+
 @app.errorhandler(404)
 def http_error_handler(error):
     message = "Такой страницы не существует :("
+    btns = [{"href": "/", "color": "warning", "text": "На главную"}]
     return render_template("error.html", code=404,
-                           message=message, report=False), 500
+                           message=message, btns=btns), 404
 
 
 @app.errorhandler(500)
 def http_error_handler(error):
     message = "Этот материал недоступен в настоящее время :("
+    btns = [
+        {"href": "/", "color": "warning", "text": "На главную"},
+        {"href": "", "color": "info", "text": "Сообщить об ошибке"}
+    ]
     return render_template("error.html", code=500,
-                           message=message, report=True), 500
+                           message=message, btns=btns), 500
 
 
 @app.route('/')
@@ -204,8 +219,9 @@ def kinovod_film(code):
         if field not in data.keys():
             data[field] = "–"
     db_sess = db_session.create_session()
-    favorite = bool(db_sess.query(Favorite).filter(Favorite.code ==
+    favorite = (bool(db_sess.query(Favorite).filter(Favorite.code ==
         "k" + code, Favorite.user_id == current_user.id).first())
+        if current_user.is_authenticated else False)
     return render_template("film.html", data=data, favorite=favorite)
 
 
@@ -216,8 +232,9 @@ def kinovod_serial(code):
         if field not in data.keys():
             data[field] = "–"
     db_sess = db_session.create_session()
-    favorite = bool(db_sess.query(Favorite).filter(Favorite.code ==
+    favorite = (bool(db_sess.query(Favorite).filter(Favorite.code ==
         "k" + code, Favorite.user_id == current_user.id).first())
+        if current_user.is_authenticated else False)
     return render_template("serial.html", data=data, favorite=favorite)
 
 
@@ -261,4 +278,4 @@ def favorites():
 
 if __name__ == '__main__':
     app.register_blueprint(kinovod_api.blueprint)
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080, debug=True)
