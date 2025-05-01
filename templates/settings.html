@@ -68,14 +68,33 @@
             <a href="/other" class="btn btn-lg btn-warning mt-3">Стать разработчиком</a>
         </div>
     </div>
+    <button data-bs-toggle="modal" data-bs-target="#modal" id="openModal" hidden></button>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Предупреждение!</h1>
+            <button type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">Файл с таким расширением не поддерживается! Используйте картинки формата: <b>png, jpg, jpeg</b></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-lg btn-warning" data-bs-dismiss="modal"
+                onclick="document.getElementById('specialAvatar').click()">Выбрать заново</button>
+            <button type="button" class="btn btn-lg btn-primary" data-bs-dismiss="modal">Понятно</button>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
     <script>
         document.getElementById("specialAvatar").onchange = function () {
             let avatar = document.getElementById("specialAvatar").value.split(".")
-            if (["png", "jpg", "jpeg"].indexOf(avatar[avatar.length - 1]) === -1)
-                alert("Файл с таким расширением не поддерживается!")
+            if (["png", "jpg", "jpeg"].indexOf(avatar[avatar.length - 1]) === -1) {
+                document.getElementById("openModal").click()
+                document.getElementById("specialAvatar").value = ""
+            }
             else document.getElementById("specialAvatarButton").click()
         }
         function setAvatar(color) {

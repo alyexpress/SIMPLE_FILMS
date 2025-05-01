@@ -3,7 +3,7 @@
 {% set header_select = 2 %}
 {% block content %}
 <h1 class="request">Избранные фильмы и сериалы:</h1>
-<div class="films-grid mt-3">
+<div class="films-grid mt-3 mb-5">
     {% for film in data %}
     <a href="../../film/{{ film['code'] }}">
         <img src="{{ film['preview'] }}" class="d-none" alt="">

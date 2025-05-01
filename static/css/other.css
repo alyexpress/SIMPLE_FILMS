@@ -1,3 +1,17 @@
+.poster {
+    width: 100%;
+    border-radius: 50px;
+    /*animation-name: poster;*/
+    /*animation-duration: 20s;*/
+    /*animation-timing-function: linear;*/
+    /*animation-iteration-count: infinite;*/
+}
+
+@keyframes poster {
+    0% { filter: hue-rotate(0deg) }
+    100% { filter: hue-rotate(-360deg) }
+}
+
 .quote {
     position: relative;
     border: 1px solid #ddd;
@@ -36,11 +50,11 @@ p {
 }
 
 .code-block {
-    background: var(--bs-warning);
-    color: black;
+    background: var(--glass-color);
+    color: var(--text-color);
     opacity: 70%;
     border-radius: 15px;
-    padding: 20px;
+    padding: 20px 30px;
     font-size: 18px;
 }
 

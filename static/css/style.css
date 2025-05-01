@@ -6,6 +6,7 @@ html.light {
     --glass-shadow: white;
     --tag-background: #222;
     --tag-color: white;
+    --modal-background: white;
     --border-color: var(--bs-border-color);
     --shadow-color: rgba(0, 0, 0, 0.2);
     --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
@@ -20,6 +21,7 @@ html.dark {
     --glass-shadow: #999;
     --tag-background: white;
     --tag-color: #222;
+    --modal-background: rgb(30, 33, 36);
     --shadow-color: rgba(0, 0, 0, 1);
     --border-color: rgba(255, 255, 255, 0.15);
     --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
@@ -35,6 +37,7 @@ html.dark {
         --glass-shadow: #999!important;
         --tag-background: white!important;
         --tag-color: #222!important;
+        --modal-background: rgb(30, 33, 36)!important;
         --shadow-color: rgba(0, 0, 0, 1)!important;
         --border-color: rgba(255, 255, 255, 0.15)!important;
         --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>')!important;
@@ -274,8 +277,8 @@ header .nav-link.text-white:hover {
 }
 
 .request {
-    font-size: calc(1.5rem + 1.5vw);
-    font-weight: 200;
+    font-size: calc(1.6rem + 2vw);
+    font-weight: 800;
 }
 
 .films-grid {
@@ -623,4 +626,60 @@ form.err-form .form-control {
     padding: 5px 50px;
     border-radius: 15px;
     display: inline-block;
+}
+
+.modal {
+    --bs-modal-bg: var(--modal-background);
+    --bs-modal-color: var(--text-color);
+    --bs-modal-border-radius: 15px;
+    --bs-modal-header-border-width: none;
+    --bs-modal-footer-border-width: none;
+}
+
+.modal .modal-content {
+    border: 1px solid var(--border-color)!important;
+}
+
+.modal .modal-header {
+    padding-bottom: 10px;
+}
+
+.modal .modal-header h1 {
+    font-size: 25px!important;
+    font-weight: 700!important;
+}
+
+.modal .modal-body {
+    font-size: 20px;
+    padding: 0 1rem!important;
+}
+
+.modal .btn-lg {
+    padding: 5px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.modal button[aria-label] {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
+    transition: .2s;
+    background-color: var(--dim-color);
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+}
+
+.modal button[aria-label]:hover {
+    opacity: 1;
+}
+
+.modal button[aria-label]:active {
+    box-shadow: none!important;
+    opacity: 0.2;
+}
+.modal button[aria-label]:focus {
+    box-shadow: none!important;
+    opacity: 0.2;
 }

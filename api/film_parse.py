@@ -91,13 +91,13 @@ class Kinovod(Service):
             video = soup.find('video')['src']
             return {'src': video}
         except NoSuchElementException:
-            return {'error': '404 Not Found', 'src': ''}, 404
+            return {'error': '404 Not Found', 'src': ''}
         except TimeoutException:
-            return {'error': '524 A Timeout Occurred', 'src': ''}, 524
+            return {'error': '524 A Timeout Occurred', 'src': ''}
         except (TypeError, KeyError):
-            return {'error': '502 Bad Gateway', 'src': ''}, 502
+            return {'error': '502 Bad Gateway', 'src': ''}
         except Exception:
-            return {'error': '520 Unknown Error', 'src': ''}, 520
+            return {'error': '520 Unknown Error', 'src': ''}
 
     def serial(self, code, s=1, e=1):
         try:
@@ -133,15 +133,15 @@ class Kinovod(Service):
             video = soup.find('video').find('source')['src']
             return dict([('src', video)] + list(parts.items()))
         except NoSuchElementException:
-            return {'error': '404 Not Found', 'src': ''}, 404
+            return {'error': '404 Not Found', 'src': ''}
         except JavascriptException:
-            return {'error': '400 Bad Request', 'src': ''}, 400
+            return {'error': '400 Bad Request', 'src': ''}
         except TimeoutException:
-            return {'error': '524 A Timeout Occurred', 'src': ''}, 524
+            return {'error': '524 A Timeout Occurred', 'src': ''}
         except (TypeError, KeyError):
-            return {'error': '502 Bad Gateway', 'src': ''}, 502
+            return {'error': '502 Bad Gateway', 'src': ''}
         except Exception:
-            return {'error': '520 Unknown Error', 'src': ''}, 520
+            return {'error': '520 Unknown Error', 'src': ''}
 
     def info(self, code):
         try:
@@ -171,9 +171,9 @@ class Kinovod(Service):
                 del data['']
             return data
         except NoSuchElementException:
-            return {'error': '404 Not Found'}, 404
+            return {'error': '404 Not Found'}
         except Exception:
-            return {'error': '502 Bad Gateway'}, 502
+            return {'error': '502 Bad Gateway'}
 
 
     def search(self, query):

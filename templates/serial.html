@@ -66,6 +66,38 @@
         </svg>
     </button>
 </div>
+<button data-bs-toggle="modal" data-bs-target="#modal" id="openModal" hidden></button>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Сообщение!</h1>
+        <button type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Чтобы добавить этот сериал в избранные, нужно войти в аккаунт или зарегистрироваться.</div>
+      <div class="modal-footer">
+        <a href="/log-in" class="btn btn-lg btn-info">Войти</a>
+        <a href="/sign-up" class="btn btn-lg btn-warning">Регистрация</a>
+      </div>
+    </div>
+  </div>
+</div>
+<button data-bs-toggle="modal" data-bs-target="#endModal" id="openEndModal" hidden></button>
+<div class="modal fade" id="endModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Сообщение!</h1>
+        <button type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Вы досмотрели этот сериал до конца.</div>
+      <div class="modal-footer">
+        <a href="/" class="btn btn-lg btn-warning">На главную</a>
+        <button type="button" class="btn btn-lg btn-primary" data-bs-dismiss="modal">Понятно</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -104,8 +136,8 @@
     window.onload = async function () {
         document.getElementsByClassName("glass-img")[0].remove()
         document.getElementsByClassName("d-none")[0].classList.remove("d-none")
-        let serials = await setVideo(s, e, false)
-        load_seasons(serials[0]); load_episodes(serials[1])
+        {#let serials = await setVideo(s, e, false)#}
+        {#load_seasons(serials[0]); load_episodes(serials[1])#}
     }
     function watch() {
         const videoContent = document.getElementsByClassName("video-content")[0]
@@ -118,7 +150,7 @@
             document.getElementById("episodes").innerHTML =
                 '<option value="1" selected>1 Серия</option>'
             return load_episodes((await setVideo(s, e))[1]) }
-        else return alert("Вы досмотрели сериал до конца!")
+        else document.getElementById("openEndModal").click()
     }
     video.onended = async function() { await nextEpisode() }
     document.getElementById("episodes").onchange = async function () {
@@ -147,9 +179,9 @@
                 btn[i].classList.add("btn-warning")
                 btn[i].innerText = "В Избранное"
             }
-        } else {
-            alert("Чтобы добавить сериал в избранное нужно авторизоваться!")
-        }
+        } else document.getElementById("openModal").click()
+
+            {#alert("Чтобы добавить сериал в избранное нужно авторизоваться!")#}
     }
 </script>
 {% endblock %}

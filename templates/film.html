@@ -93,6 +93,22 @@
 {#    </div>#}
 {#    {% endif %}#}
 {#{% endif %}#}
+<button data-bs-toggle="modal" data-bs-target="#modal" id="openModal" hidden></button>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Сообщение!</h1>
+        <button type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Чтобы добавить этот фильм в избранные, нужно войти в аккаунт или зарегистрироваться.</div>
+      <div class="modal-footer">
+        <a href="/log-in" class="btn btn-lg btn-info">Войти</a>
+        <a href="/sign-up" class="btn btn-lg btn-warning">Регистрация</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -126,9 +142,7 @@
                 btn[i].classList.add("btn-warning")
                 btn[i].innerText = "В Избранное"
             }
-        } else {
-            alert("Чтобы добавить фильм в избранное нужно авторизоваться!")
-        }
+        } else document.getElementById("openModal").click()
     }
 </script>
 {% endblock %}

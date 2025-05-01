@@ -5,7 +5,7 @@
 {% block content %}
 {% if data %}
 <h1 class="request">Результаты поиска: {{ query }}</h1>
-<div class="films-grid mt-3">
+<div class="films-grid mt-3 mb-5">
     {% for film in data %}
     {% set link = film['link'].split('/')[-1] %}
     <a href="../../film/k{{ link.split('-')[0] }}">
@@ -20,7 +20,7 @@
         <span class="year">{{ film['year'] }}</span>
     </a>
     {% endfor %}</div>
-    <div class="btn-more"><a href="">Больше результатов</a></div>
+{#    <div class="btn-more"><a href="">Больше результатов</a></div>#}
     {% else %}<div class="center-block">
         <h1 style="font-size: 50px;">Ошибка 404</h1>
         <h2>По такому запросу ничего не найдено :(</h2>
