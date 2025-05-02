@@ -266,7 +266,7 @@ def favorites():
     favourites = db_sess.query(Favorite).filter(
         Favorite.user_id == current_user.id).all()
     data = []
-    for favorite in favourites:
+    for favorite in favourites[::-1]:
         preview = f"{kinovod.SERVER}/{favorite.preview}"
         title, year = favorite.title, favorite.year
         rating, code = favorite.rating, favorite.code

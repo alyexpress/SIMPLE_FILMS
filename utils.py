@@ -1,4 +1,5 @@
 from PIL import Image
+from re import sub
 import hashlib
 
 
@@ -21,3 +22,21 @@ def square_pic(path):
             b = x + u
         img = img.crop((l, u, r, b))
         img.save(path)
+
+def censored_text(text):
+    dirty_words = {
+        r'([пП])[иИеЕ][зЗ][дД]': r'\1***',
+        r'([еЕёЁ])[бБ][аАоОуУиИлЛ]': r'\1**',
+        r'([хХ])[уУ][йЙеЕёЁяЯюЮ]': r'\1**',
+        r'([бБ])[лЛ][яЯ]': r'\1**',
+        r'([гГ])[аА][нН][дД]': r'\1***',
+        r'([мМ])[уУ][дД][аАоО]': r'\1***',
+        r'([жЖ])[оО][пП]': r'\1**',
+        r'([сС])[уУ][кКчЧ]': r'\1**',
+        r'([дД])[оО][лЛ][бБ]': r'\1***',
+        r'([зЗ])[аА][лЛ][уУ]([пП])': r'\1***\2',
+        r'([пП])[иИ][дД][оОаА]([рР])': r'\1***\2'
+    }
+    for dirty, censored in dirty_words.items():
+        text = sub(dirty, censored, text)
+    return text

@@ -1,0 +1,66 @@
+html.light {
+    --background-color: white;
+    --text-color: black;
+    --dim-color: gray;
+    --glass-color: #ddd;
+    --glass-shadow: white;
+    --tag-background: #222;
+    --tag-color: white;
+    --modal-background: white;
+    --border-color: var(--bs-border-color);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
+    --loader-size: 150px;
+
+    --success-background: #0ac15a;
+    --success-border: #0ac15a;
+    --success-color: #ffffffaa;
+    --danger-background: #ef2544;
+    --danger-border: #ef2544;
+    --danger-color: #ffffffaa;
+}
+
+html.dark {
+    --background-color: rgb(25, 28, 31);
+    --text-color: white;
+    --dim-color: #aaa;
+    --glass-color: #555;
+    --glass-shadow: #999;
+    --tag-background: white;
+    --tag-color: #222;
+    --modal-background: rgb(30, 33, 36);
+    --shadow-color: rgba(0, 0, 0, 1);
+    --border-color: rgba(255, 255, 255, 0.15);
+    --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
+    --loader-size: 150px;
+
+    --success-background: linear-gradient(#00cc0066, #00cc0033);
+    --success-border: #00cc00;
+    --success-color: #00cc00;
+    --danger-background: linear-gradient(#ff000066, #ff000033);
+    --danger-border: #ff0000;
+    --danger-color: #ff0000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: rgb(25, 28, 31)!important;
+        --text-color: white!important;
+        --dim-color: #aaa!important;
+        --glass-color: #555!important;
+        --glass-shadow: #999!important;
+        --tag-background: white!important;
+        --tag-color: #222!important;
+        --modal-background: rgb(30, 33, 36)!important;
+        --shadow-color: rgba(0, 0, 0, 1)!important;
+        --border-color: rgba(255, 255, 255, 0.15)!important;
+        --dropdownarrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16" style="color: white"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>')!important;
+
+        --success-background: linear-gradient(#00cc0066, #00cc0033)!important;
+        --success-border: #00cc00!important;
+        --success-color: #00cc00!important;
+        --danger-background: linear-gradient(#ff000066, #ff000033)!important;
+        --danger-border: #ff0000!important;
+        --danger-color: #ff0000!important;
+    }
+}

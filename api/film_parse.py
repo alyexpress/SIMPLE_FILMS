@@ -8,10 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from time import sleep
 import datetime
-from re import search
-
-#DEL
-from pprint import pprint
 
 
 class Service:
@@ -156,6 +152,7 @@ class Kinovod(Service):
             description = "" if div is None else div.get_text()
             span = soup.select_one("span.rating_site")
             rating = 0 if span is None else span.parent.get_text()
+            rating = 0 if not rating.strip() else rating
             meta = soup.find('meta', property="og:url").get("content")
             serial = meta.split("/")[-2] == "serial"
             data = {'preview': self.SERVER + preview,
