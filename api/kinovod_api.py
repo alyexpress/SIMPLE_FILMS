@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request, redirect
 from . import kinovod
+from data import db_session
+from data.api_keys import ApiKey
 
 
 blueprint = Blueprint('kinovod_api', __name__,
@@ -8,16 +10,20 @@ blueprint = Blueprint('kinovod_api', __name__,
 
 @blueprint.route('/api/film/k<code>/<api_key>')
 def kinovod_film(code, api_key):
-    if (request.referrer == request.host_url + "film/k" + code
-            or api_key == "p7Kwv6z7y4MX2i0LaCxl"):
+    if request.referrer == request.host_url + "film/k" + code:
+        return jsonify(kinovod.film(code))
+    db_sess = db_session.create_session()
+    if db_sess.query(ApiKey).get(api_key):
         return jsonify(kinovod.film(code))
     return jsonify({'error': '403 Forbidden'}), 403
 
 
 @blueprint.route('/api/serial/k<code>/e<int:e>/<api_key>')
 def kinovod_serial_e(code, e, api_key):
-    if (request.referrer == request.host_url + "serial/k" + code
-            or api_key == "p7Kwv6z7y4MX2i0LaCxl"):
+    if request.referrer == request.host_url + "serial/k" + code:
+        return jsonify(kinovod.serial(code, 0, e))
+    db_sess = db_session.create_session()
+    if db_sess.query(ApiKey).get(api_key):
         return jsonify(kinovod.serial(code, 0, e))
     return jsonify({'error': '403 Forbidden'}), 403
 
@@ -25,8 +31,10 @@ def kinovod_serial_e(code, e, api_key):
 
 @blueprint.route('/api/serial/k<code>/s<int:s>e<int:e>/<api_key>')
 def kinovod_serial(code, s, e, api_key):
-    if (request.referrer == request.host_url + "serial/k" + code
-            or api_key == "p7Kwv6z7y4MX2i0LaCxl"):
+    if request.referrer == request.host_url + "serial/k" + code:
+        return jsonify(kinovod.serial(code, s, e))
+    db_sess = db_session.create_session()
+    if db_sess.query(ApiKey).get(api_key):
         return jsonify(kinovod.serial(code, s, e))
     return jsonify({'error': '403 Forbidden'}), 403
 

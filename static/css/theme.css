@@ -14,10 +14,12 @@ html.light {
 
     --success-background: #0ac15a;
     --success-border: #0ac15a;
-    --success-color: #ffffffaa;
+    --success-color: #ffffffbb;
     --danger-background: #ef2544;
     --danger-border: #ef2544;
-    --danger-color: #ffffffaa;
+    --danger-color: #ffffffbb;
+    --avatar-filter: none;
+    --input-shadow: rgba(13, 110, 253, .25);
 }
 
 html.dark {
@@ -40,6 +42,8 @@ html.dark {
     --danger-background: linear-gradient(#ff000066, #ff000033);
     --danger-border: #ff0000;
     --danger-color: #ff0000;
+    --avatar-filter: invert(1);
+    --input-shadow: rgba(13, 110, 253, .5);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -62,5 +66,7 @@ html.dark {
         --danger-background: linear-gradient(#ff000066, #ff000033)!important;
         --danger-border: #ff0000!important;
         --danger-color: #ff0000!important;
+        --avatar-filter: invert(1)!important;
+        --input-shadow: rgba(13, 110, 253, .5)!important;
     }
 }

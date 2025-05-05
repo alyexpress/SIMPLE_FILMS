@@ -1,13 +1,16 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 
+from utils import hashing, square_pic, censored_text, time_ago
 from os import remove
-from utils import hashing, square_pic
+
 from config import SECRET_KEY
 from data import db_session
 from data.users import User
 from data.favorites import Favorite
+from data.comments import Comment
+from data.api_keys import ApiKey
 from api import kinovod
 from api import kinovod_api
 
@@ -37,30 +40,30 @@ def logout():
 @app.errorhandler(401)
 def http_error_handler(error):
     message = "Вы не авторизовались :("
-    btns = [
+    buttons = [
         {"href": "/log-in", "color": "info", "text": "Войти"},
         {"href": "/sign-up", "color": "warning", "text": "Регистрация"}
     ]
     return render_template("error.html", code=401,
-                           message=message, btns=btns), 401
+                           message=message, btns=buttons), 401
 
 @app.errorhandler(404)
 def http_error_handler(error):
     message = "Такой страницы не существует :("
-    btns = [{"href": "/", "color": "warning", "text": "На главную"}]
+    buttons = [{"href": "/", "color": "warning", "text": "На главную"}]
     return render_template("error.html", code=404,
-                           message=message, btns=btns), 404
+                           message=message, btns=buttons), 404
 
 
 @app.errorhandler(500)
 def http_error_handler(error):
     message = "Этот материал недоступен в настоящее время :("
-    btns = [
+    buttons = [
         {"href": "/", "color": "warning", "text": "На главную"},
         {"href": "", "color": "info", "text": "Сообщить об ошибке"}
     ]
     return render_template("error.html", code=500,
-                           message=message, btns=btns), 500
+                           message=message, btns=buttons), 500
 
 
 @app.route('/')
@@ -144,6 +147,14 @@ def other():
 @login_required
 def settings():
     if request.method == 'GET':
+        anonymous = request.args.get('anonymous')
+        if anonymous is not None:
+            db_sess = db_session.create_session()
+            user = db_sess.query(User).get(current_user.id)
+            current_user.anonymous = bool(int(anonymous))
+            user.anonymous = bool(int(anonymous))
+            db_sess.commit()
+            return "OK"
         return render_template("settings.html", error=False)
     elif request.method == 'POST':
         name = request.form.get('name')
@@ -218,11 +229,19 @@ def kinovod_film(code):
     for field in "Жанр Страна Режиссер Актеры".split():
         if field not in data.keys():
             data[field] = "–"
-    db_sess = db_session.create_session()
+    db_sess, comments = db_session.create_session(), []
     favorite = (bool(db_sess.query(Favorite).filter(Favorite.code ==
         "k" + code, Favorite.user_id == current_user.id).first())
         if current_user.is_authenticated else False)
-    return render_template("film.html", data=data, favorite=favorite)
+    for comment in db_sess.query(Comment).filter(Comment.code == "k" + code):
+        user = db_sess.query(User).get(comment.user_id)
+        avatar = "default/anonymous.png" if user is None else user.avatar
+        name = "Аноним" if user is None else user.name
+        comments.append({"avatar": avatar, "name": name,
+                         "text": comment.text.replace("\n", "<br>"),
+                         "time": time_ago(comment.created_date)})
+    return render_template("film.html", data=data,
+                           favorite=favorite, comments=comments[::-1])
 
 
 @app.route('/serial/k<code>')
@@ -231,11 +250,19 @@ def kinovod_serial(code):
     for field in "Жанр Страна Режиссер Актеры".split():
         if field not in data.keys():
             data[field] = "–"
-    db_sess = db_session.create_session()
+    db_sess, comments = db_session.create_session(), []
     favorite = (bool(db_sess.query(Favorite).filter(Favorite.code ==
         "k" + code, Favorite.user_id == current_user.id).first())
         if current_user.is_authenticated else False)
-    return render_template("serial.html", data=data, favorite=favorite)
+    for comment in db_sess.query(Comment).filter(Comment.code == "k" + code):
+        user = db_sess.query(User).get(comment.user_id)
+        avatar = "default/anonymous.png" if user is None else user.avatar
+        name = "Аноним" if user is None else user.name
+        comments.append({"avatar": avatar, "name": name,
+                         "text": comment.text.replace("\n", "<br>"),
+                         "time": time_ago(comment.created_date)})
+    return render_template("serial.html", data=data,
+                           favorite=favorite, comments=comments[::-1])
 
 
 @app.route('/film/k<code>/favorite')
@@ -274,6 +301,37 @@ def favorites():
              "title": title, "year": year, "rating": rating})
     return render_template("favorites.html", data=data)
 
+
+
+@app.route('/leave-comment', methods=['POST'])
+@login_required
+def leave_comment():
+    text = request.json.get("text", "Пустой комментарий")
+    mark = request.json.get("mark")
+    if not request.referrer.startswith(request.host_url):
+        return jsonify({"error": "400 Bad Request"}), 400
+    comment = Comment(code=request.referrer.split("/")[-1],
+                      text=censored_text(text), mark=mark)
+    if not current_user.anonymous:
+        comment.user_id = current_user.id
+    db_sess = db_session.create_session()
+    db_sess.add(comment)
+    db_sess.commit()
+    return comment.text, 200
+
+
+@app.route('/apikey')
+@login_required
+def apikey():
+    db_sess = db_session.create_session()
+    api_key = db_sess.query(ApiKey).filter(
+        ApiKey.user_id == current_user.id).first()
+    if api_key is not None:
+        return api_key.key
+    api_key = ApiKey(user_id=current_user.id)
+    db_sess.add(api_key)
+    db_sess.commit()
+    return api_key.key
 
 
 if __name__ == '__main__':

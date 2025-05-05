@@ -57,7 +57,7 @@
                 <label class="form-check-label" for="allowCookie">Разрешить файлы cookie</label>
             </div>
             <div class="form-check form-switch mt-2 ms-4">
-                <input class="form-check-input" type="checkbox" role="switch" id="hideProfile">
+                <input class="form-check-input" type="checkbox" role="switch" id="hideProfile"{% if current_user.anonymous %} checked{% endif %}>
                 <label class="form-check-label" for="hideProfile">Анонимные комментарии</label>
             </div>
             <h1 class="mt-4 mb-3 ms-3">Для разработчиков</h1>
@@ -110,6 +110,14 @@
             let theme = document.getElementById("darkTheme").checked ? "dark": "light"
             document.documentElement.setAttribute('class', theme);
             localStorage.setItem("colorTheme", theme)
+        }
+        document.getElementById("hideProfile").onchange = async function () {
+            let anonymous = document.getElementById("hideProfile").checked ? "1": "0"
+            let url = window.location.href + "?anonymous=" + anonymous
+            if (await(await fetch(url)).text() !== "OK") {
+                document.getElementById("hideProfile").checked =
+                    !document.getElementById("hideProfile").checked
+            }
         }
         document.getElementById("avatar").onclick = function () {
             const avatarSelect = document.getElementsByClassName("avatar-select")[0]

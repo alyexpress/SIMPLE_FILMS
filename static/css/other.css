@@ -58,6 +58,15 @@ p {
     font-size: 18px;
 }
 
+.list {
+    margin-top: -10px;
+}
+
+.list > li {
+    font-size: 25px;
+    font-weight: 500;
+}
+
 html.dark {
     .quote {
         border-color: #444;

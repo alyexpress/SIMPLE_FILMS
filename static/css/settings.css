@@ -14,7 +14,7 @@ html.dark {
     html {
         --shadow: 0 0 40px #000!important;
         --input-background: #333!important;
-        --avatar-select: #eee!important;
+        --avatar-select: #29292d!important;
     }
 }
 

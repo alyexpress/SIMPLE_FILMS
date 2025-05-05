@@ -17,7 +17,13 @@
     На сайте нельзя смотреть русские фильмы, так как это бы нарушало <a href="https://www.consultant.ru/document/cons_doc_LAW_64629/bcdb3bad76a5cc627f036c9e23135e25579d3635/">1263 статью ГК РФ</a> отечественных кинокомпаний.</p>
 
     <h1 class="mt-5">Получить доступ к API и его использование</h1>
-    <p>Для начала выберите подходящий для себя тариф и получите <b>Ключ разработчика</b>.</p>
+    <p class="ms-3 mt-2">Для использования API вам понадобиться зарегистрировать <b>Ключ Разработчика:</b><a href="/apikey" class="btn btn-lg btn-primary ms-3">Получить Ключ Разработчика</a></p>
+    <p class="ms-3"><i>В целях снижения нагрузки на сервер сайта в API присутствуют следующие ограничения:</i></p>
+    <ul class="list d-flex">
+        <li><i>До 5 запросов в минуту</i></li>
+        <li class="ms-5"><i>До 200 запросов в день</i></li>
+        <li class="ms-5"><i>Блокировка повторных запросов</i></li>
+    </ul>
     <h1 class="mt-5 mb-4">Получить прямую ссылку на фильм / сериал</h1>
     <h3 class="mb-3 ms-2">Формат запроса:</h3>
     <div class="code code-block mb-4 d-flex" style="font-size: 25px;">
@@ -29,19 +35,5 @@
         <div>{<br>&nbsp;&nbsp;"src": &lt;string&gt;,<br>&nbsp;&nbsp;"seasons": &lt;integer&gt;,<br>&nbsp;&nbsp;"episodes": &lt;integer&gt;,<br>&nbsp;&nbsp;"error": &lt;string&gt;<br>}</div>
         <div class="ms-5"><br>// Ссылка на исходное видео<br>// Количество сезонов (только в сериале)<br>// Количество серий в сезоне (только в сериале)<br>// Код ошибки и описание (при возникновении)</div>
     </div>
-{#    <p class="ms-3">Параметр <span class="code">{server}</span> определяется сайтом, откуда нужно взять фильм, задаётся первой буквой названия сайта: <span class="code">{k: kinovod, r: rutube, z: zona}</span>.#}
-{#    Параметр <span class="code">{code}</span> </p>#}
-{#    <div class="code code-block mb-3"><span style="font-size: 25px;">{{ request.host_url }}api/film/{server}{code}/{apikey}</span><br>{server} = Буква сайта {k: kinovod, r: rutube, z: zona}; {code} = Код фильма; {apikey} = Ключ Разработчика.</div>#}
-{#    <div class="quote">Отправив <b>GET</b> запрос на сайт по ссылке выше, сервер вернёт <b>json</b> ответ. Если всё сработало успешно, то по ключу <b>"src"</b> вы получите ссылку на исходное видео. В случаи ошибки, сервер вернёт ответ с ключом <b>"error"</b>, содержащий код и описание возникшей ошибки.</div>#}
-{#    <h1 class="mt-5 mb-3">Получить прямую ссылку на сериал</h1>#}
-{#    <div class="code code-block mb-3"><span style="font-size: 25px;">{{ request.host_url }}api/serial/{server}{code}/s{season}e{episode}/{apikey}</span><br>{server} = Буква сайта {k: kinovod, r: rutube, z: zona}; {code} = Код сериала; <br> {season} = Сезон; {episode} = Серия; {apikey} = Ключ Разработчика.</div>#}
-{#    <div class="quote">Отправив <b>GET</b> запрос на сайт по ссылке выше, сервер вернёт <b>json</b> ответ. Если всё сработало успешно, то по ключу <b>"src"</b> вы получите ссылку на исходное видео. Так же будут доступны ключи <b>"seasons"</b> и <b>"episodes"</b> В случаи ошибки, сервер вернёт ответ с ключом <b>"error"</b>, содержащий код и описание возникшей ошибки.</div>#}
-    <br><br><br><br><br><br>
+    <br><br><br><br><br>
 {% endblock %}
-{#{{ request.host_url }}api/serial/&lt;server&gt;&lt;code&gt;/s&lt;season&gt;e&lt;episode&gt;/&lt;api_key&gt;#}
-
-{#{% block scripts %}#}
-{#<script>#}
-{##}
-{#</script>#}
-{#{% endblock %}#}

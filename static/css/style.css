@@ -315,20 +315,20 @@ header .nav-link.text-white:hover {
     display: inline-block;
     position: absolute;
     width: 160%;
-    height: 80px;
+    height: 15%;
     transform: rotate(-30deg);
-    top: -200px;
-    left: -45px;
+    top: -40%;
+    left: -30%;
     background: var(--glass-shadow);
     filter: blur(40px);
     animation-name: load_img;
-    animation-duration: 2s;
+    animation-duration: 2.5s;
     animation-iteration-count: infinite;
 }
 
 @keyframes load_img {
-    from {top: -200px}
-    to {top: 550px}
+    from {top: -40%}
+    to {top: 140%}
 }
 
 .btn-more {
@@ -638,6 +638,13 @@ form.err-form .form-control {
     opacity: 0.2;
 }
 
+.comments .send-comment.sent {
+    transition: 1s;
+    transform: scale(0.8);
+    opacity: 0;
+    visibility: hidden;
+}
+
 .comments .send-comment > img {
     display: inline-block;
     width: 70px;
@@ -645,7 +652,7 @@ form.err-form .form-control {
     border-radius: 15px;
 }
 
-.comments .send-comment form > textarea {
+.comments .send-comment textarea {
     width: 100%;
     min-height: 144px;
     font-size: 30px;
@@ -657,7 +664,11 @@ form.err-form .form-control {
     border-radius: 15px;
 }
 
-.comments .send-comment form > button {
+.comments .send-comment textarea:focus {
+    box-shadow: 0 0 0 .25rem var(--input-shadow);
+}
+
+.comments .send-comment button {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -666,11 +677,11 @@ form.err-form .form-control {
     transition: .2s;
 }
 
-.comments .send-comment form > button:hover {
+.comments .send-comment button:hover {
     transform: scale(0.93);
 }
 
-.comments .send-comment form > button > svg {
+.comments .send-comment button > svg {
     transform: scale(1.1, 1) rotate(10deg);
     margin: 4px 4px -4px -4px;
 }
@@ -717,4 +728,59 @@ form.err-form .form-control {
     25% {transform: scale(0.95) rotate(-15deg)}
     65% {transform: scale(1.1) rotate(10deg)}
     100% {transform: scale(1) rotate(0)}
+}
+
+/*.comments .send-comment .btn-lg.btn-primary {*/
+/*    font-size: 20px;*/
+/*    !*font-weight: 500;*!*/
+/*    border-radius: 50px;*/
+/*    padding: 10px 25px;*/
+/*}*/
+
+.comments .other-comments {
+    margin-top: 100px;
+}
+
+.comments .other-comments:has(.sent) {
+    margin-top: -250px;
+}
+
+.comments .new-comment {
+    display: none!important;
+}
+
+.comments .new-comment.sent {
+    display: flex!important;
+    animation-name: new-comment;
+    animation-duration: 2s;
+}
+
+@keyframes new-comment {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+.comments .comment > img {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    margin-top: 3px;
+}
+
+.comments .comment span.name {
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.comments .comment span.date {
+    color: var(--dim-color);
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.comments .comment p {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.3;
 }
