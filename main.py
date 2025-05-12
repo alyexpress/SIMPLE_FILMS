@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, abort
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 
@@ -68,8 +68,49 @@ def http_error_handler(error):
 
 @app.route('/')
 def index():
-    data = kinovod.films(count=12)['results']
-    return render_template("index.html", data=data)
+    data = kinovod.index()
+    return render_template("index.html", **data)
+
+
+@app.route('/films')
+def films():
+    data = kinovod.films()['results']
+    filters = list(map(lambda x: [x[0], "films" + x[1],
+                x[0] == "Все жанры"], kinovod.FILTERS))
+    return render_template("more.html", title="Фильмы",
+                           data=data, filters=filters)
+
+@app.route('/films/<genre>')
+def films_genre(genre):
+    correct = list(map(lambda x: x[1], kinovod.FILTERS))
+    if "/" + genre not in correct:
+        return abort(404)
+    data = kinovod.films("/" + genre)['results']
+    filters = list(map(lambda x: [x[0], "../films" + x[1],
+                x[1] == "/" + genre], kinovod.FILTERS))
+    return render_template("more.html", title="Фильмы",
+                           data=data, filters=filters)
+
+
+@app.route('/serials')
+def serials():
+    data = kinovod.serials()['results']
+    filters = list(map(lambda x: [x[0], "serials" + x[1],
+                x[0] == "Все жанры"], kinovod.FILTERS))
+    return render_template("more.html", title="Сериалы",
+                           data=data, filters=filters)
+
+
+@app.route('/serials/<genre>')
+def serials_genre(genre):
+    correct = list(map(lambda x: x[1], kinovod.FILTERS))
+    if "/" + genre not in correct:
+        return abort(404)
+    data = kinovod.serials("/" + genre)['results']
+    filters = list(map(lambda x: [x[0], "../serials" + x[1],
+                x[1] == "/" + genre], kinovod.FILTERS))
+    return render_template("more.html", title="Сериалы",
+                           data=data, filters=filters)
 
 
 @app.route('/kinopoisk/<code>')

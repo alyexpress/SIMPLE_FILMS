@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -56,6 +58,21 @@ class Kinovod(Service):
     OLD_PLAYER = {'name': 'player_settings', 'value': 'old|mp4|1'}
     FULL_HD = "window.localStorage.setItem('pljsquality', '1080p')"
     HD = "window.localStorage.setItem('pljsquality', '720p')"
+    FILTERS = (
+        ("Все жанры", ""),
+        ("Боевик", "/action"),
+        ("Детектив", "/detective"),
+        ("Драма", "/drama"),
+        ("Комедия", "/comedy"),
+        ("Криминал", "/crime"),
+        ("Мистика", "/mystic"),
+        ("Приключения", "/adventure"),
+        ("Семейный", "/family"),
+        ("Триллер", "/thriller"),
+        ("Ужасы", "/horror"),
+        ("Фантастика", "/sci-fi"),
+        ("Фэнтези", "/fantasy")
+    )
 
     # def SERVER(self):
     #     if self.DATE is not None:
@@ -193,10 +210,10 @@ class Kinovod(Service):
             results.append(data)
         return {'results': results}
 
-    def get_items(self, url, count=12):
+    def get_items(self, url, start=0, end=12):
         req = requests.get(url=url, headers=self.HEADERS)
         soup = BeautifulSoup(req.text, 'html.parser')
-        items = soup.find_all("li", class_='item')[:count]
+        items = soup.find_all("li", class_='item')[start:end]
         results = []
         for item in items:
             preview = self.SERVER + item.find('img')['src']
@@ -211,13 +228,18 @@ class Kinovod(Service):
             results.append(data)
         return {'results': results}
 
-    def films(self, count=12):
-        url = self.SERVER + "/films"
-        return self.get_items(url, count)
 
-    def serials(self, count=12):
-        url = self.SERVER + "/serials"
-        return self.get_items(url, count)
+    def films(self, genre="", count=48):
+        url = self.SERVER + "/films" + genre
+        return self.get_items(url, 0, count)
+
+    def serials(self, genre="", count=48):
+        url = self.SERVER + "/serials" + genre
+        return self.get_items(url, 0, count)
+
+    def index(self):
+        result = self.get_items(self.SERVER, 12, 36)['results']
+        return {'films': result[:12], 'serials': result[12:]}
 
 
 class FilmParse:
@@ -446,11 +468,6 @@ class FilmParse:
         return results
 
 
-    def get_film(self, server, url):
-        match server:
-            case 'rutube':
-                return self.get_rutube(url)
-            case 'kinovod':
-                return self.get_kinovod(url)
-            case 'zona':
-                return self.get_zona(url)
+if __name__ == '__main__':
+    kinovod = Kinovod()
+    pprint(kinovod.films())

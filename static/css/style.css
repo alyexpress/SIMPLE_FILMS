@@ -347,12 +347,16 @@ header .nav-link.text-white:hover {
     text-align: center;
     padding: 10px 35px;
     width: 100%;
-    max-width: 700px;
-    font-size: 3em;
+    max-width: 670px;
+    font-size: 2.5em;
     font-weight: bold;
     border-radius: 30px;
     overflow: hidden;
     transition: .2s;
+}
+
+.btn-more svg {
+    margin-bottom: -2px;
 }
 
 .btn-more > a:before {
@@ -783,4 +787,70 @@ form.err-form .form-control {
     font-size: 30px;
     font-weight: 500;
     line-height: 1.3;
+}
+
+.filter {
+    background-color: var(--tag-background)!important;
+    color: var(--tag-color)!important;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.filter > svg {
+    margin-bottom: -3px;
+}
+
+.filter:hover {
+    transform: scale(.95);
+}
+
+.offcanvas {
+    background: var(--modal-background);
+    color: var(--text-color);
+}
+
+.offcanvas .btn-close {
+    filter: var(--avatar-filter);
+    --bs-btn-close-focus-shadow: none!important;
+}
+
+.offcanvas .genre-list {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+.offcanvas .genre-list .genre-option:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.offcanvas .genre-list .genre-option:last-child {
+    border-radius: 0 0 8px 8px;
+    border: none;
+}
+
+.offcanvas .genre-option {
+    display: block;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 25px;
+    text-decoration: none;
+    padding: 6px 20px;
+    transition: .3s;
+}
+
+.offcanvas .genre-option:hover {
+    background: var(--bs-primary);
+    color: white;
+    padding-left: 40px;
+    font-weight: 500;
+}
+
+.offcanvas .genre-option.active {
+    background: var(--tag-background);
+    color: var(--tag-color);
+    font-weight: 500;
 }
