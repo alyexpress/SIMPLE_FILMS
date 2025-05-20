@@ -1,6 +1,6 @@
 from requests import get
 
-APIKEY = ""
+APIKEY = "kgmS2DCaX7LrKhild5M9"
 
 params = {
     "type": "serial",

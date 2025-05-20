@@ -11,7 +11,7 @@ from data.users import User
 from data.favorites import Favorite
 from data.comments import Comment
 from data.api_keys import ApiKey
-from api import kinovod
+from api import kinovod, kinopoisk
 from api import kinovod_api
 
 
@@ -114,9 +114,11 @@ def serials_genre(genre):
 
 
 @app.route('/kinopoisk/<code>')
-def kinopoisk(code):
+def kinopoisk_film(code):
     src = f"https://iframe.cloud/iframe/{code}"
-    return render_template("kinopoisk.html", src=src)
+    data = kinopoisk.info(code)
+    return render_template("kino.html", src=src, data=data,
+                           favorite=False)
 
 
 @app.route('/log-in', methods=['GET', 'POST'])
@@ -258,7 +260,7 @@ def get_search():
 
 @app.route('/search/<query>')
 def search(query):
-    data = kinovod.search(query)['results']
+    data = kinopoisk.search(query)['results']
     return render_template("search.html", query=query, data=data)
 
 

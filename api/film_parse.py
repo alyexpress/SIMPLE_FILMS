@@ -53,6 +53,43 @@ class Service:
 #     pprint(kinopoisk.get("https://www.kinopoisk.ru/series/5304403/"))
 
 
+class Kinopoisk(Service):
+    SERVER = "https://www.kinopoisk.ru"
+    API_SERVER = "https://kinopoiskapiunofficial.tech"
+    API_KEY = "6d8fb6f2-16e7-47d9-8b4d-ce821f0962c0"
+    API_HEADERS = {'X-API-KEY': API_KEY, 'Content-Type': 'application/json'}
+    API_POSTERS = "https://kinopoiskapiunofficial.tech/images/posters/"
+
+    def search(self, query):
+        query = query.replace(" ", "+") + "/order/relevant/perpage/50/"
+        url = self.SERVER + "/s/type/film/list/1/find/" + query
+        req = requests.get(url=url, headers=self.HEADERS)
+        soup, res = BeautifulSoup(req.text, 'html.parser'), []
+        for element in soup.select('.element')[:48]:
+            rating = element.select_one('.rating')
+            if rating is None: continue
+            else: rating = float(rating.get_text())
+            paragraph_name = element.select_one('p.name')
+            name = paragraph_name.select_one('a').get_text()
+            code = int(paragraph_name.select_one('a')['data-id'])
+            year = paragraph_name.select_one('.year')
+            year = None if year is None else year.get_text()
+            res.append({'preview': self.API_POSTERS + f"kp_small/{code}.jpg",
+                'title': name, 'rating': rating, 'year': year, 'code': code})
+        return {'results': res}
+
+
+    def info(self, code):
+        url = self.API_SERVER + f"/api/v2.2/films/{code}"
+        res = requests.get(url, headers=self.API_HEADERS).json()
+        age = res['ratingAgeLimits']
+        return {'preview': res['posterUrl'], 'name': res['nameRu'],
+            'year': res['year'], 'rating': res['ratingKinopoisk'],
+            'age': None if age is None else int(age.split('age')[1]),
+            'genres': list(map(lambda x: x['genre'].title(), res['genres'])),
+            'countries': list(map(lambda x: x['country'], res['countries'])),
+            'length': res['filmLength'], 'description': res['description']}
+
 class Kinovod(Service):
     NEW_PLAYER = {'name': 'player_settings', 'value': 'new|mp4|1'}
     OLD_PLAYER = {'name': 'player_settings', 'value': 'old|mp4|1'}
@@ -469,5 +506,5 @@ class FilmParse:
 
 
 if __name__ == '__main__':
-    kinovod = Kinovod()
-    pprint(kinovod.films())
+    kinopoisk = Kinopoisk()
+    pprint(kinopoisk.search("Гарри Поттер"))

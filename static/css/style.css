@@ -185,8 +185,10 @@ header .nav-link.text-white:hover {
     border-radius: 10px;
 }
 
-.video-content > div > video {
+.video-content > div > video,
+.video-content .video {
     width: 100%;
+    min-height: 600px;
     border-radius: 50px;
     margin-bottom: -5px;
     outline: none!important;

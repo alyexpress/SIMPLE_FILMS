@@ -7,8 +7,7 @@
 <h1 class="request">Результаты поиска: {{ query }}</h1>
 <div class="films-grid mt-3 mb-5">
     {% for film in data %}
-    {% set link = film['link'].split('/')[-1] %}
-    <a href="../../film/k{{ link.split('-')[0] }}">
+    <a href="../../kinopoisk/{{ film['code'] }}">
         <img src="{{ film['preview'] }}" class="d-none" alt="">
         <div class="glass-img"></div>
         <span class="title">{{ film['title'] }}</span>
